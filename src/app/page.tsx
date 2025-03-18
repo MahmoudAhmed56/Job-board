@@ -15,7 +15,8 @@ export default async function Home() {
    <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
     {jobs.map((job)=>(
       <JobListItem job={job} key={job.id} />
-    ))}
-   </main>
+      ))}
+      eew
+      </main>
   );
 }
