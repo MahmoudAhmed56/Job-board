@@ -4,9 +4,20 @@ import { Label } from "./ui/label";
 import Select from "./ui/select";
 import { jobTypes } from "@/lib/job-types";
 import { Button } from "./ui/button";
+import { jobFilterSchema } from "@/lib/validation";
+import { redirect } from "next/navigation";
 
 async function filterJobs(formDate: FormData) {
   "use server";
+  const values = Object.fromEntries(formDate.entries());
+  const { q, location, remote, type } = jobFilterSchema.parse(values);
+  const searchParams = new URLSearchParams({
+    ...(q && { q: q.trim() }),
+    ...(type && { type }),
+    ...(location && { location }),
+    ...(remote && { remote:"true" }),
+  });
+  redirect(`/?${searchParams.toString}`)
 }
 
 const JobFilterSidebar = async () => {
@@ -50,14 +61,17 @@ const JobFilterSidebar = async () => {
             </Select>
           </div>
           <div className="flex items-center gap-2">
-            <input    
+            <input
               id="remote"
               name="remote"
               type="checkbox"
-              className="scale-125 accent-black" />
-              <Label htmlFor="remote">Remote jobs</Label>
+              className="scale-125 accent-black"
+            />
+            <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <Button type="submit" className="w-full">Filter jobs</Button>
+          <Button type="submit" className="w-full">
+            Filter jobs
+          </Button>
         </div>
       </form>
     </aside>
