@@ -45,6 +45,9 @@ const JobResults = async ({
       {jobs.map((job) => (
         <JobListItem job={job} key={job.id} />
       ))}
+      {jobs.length === 0 && <p className="text-center m-auto">
+      No jobs founded. Try adjusting your filters.
+      </p>}
     </div>
   );
 };
