@@ -11,20 +11,30 @@ interface pageProps {
     remote?: string;
   };
 }
-
+function getTitle({ q, location, remote, type }: jobFilterValues) {
+  const TitlePreFix = q
+    ? `${q} jobs`
+    : type
+      ? `${type} jobs`
+      : remote
+        ? `Remote jobs`
+        : "All jobs";
+  const titleSuffix = location ? ` in ${location}`:"";
+  return `${TitlePreFix}${titleSuffix}`
+}
 export default async function Home({
   searchParams: { location, q, remote, type },
 }: pageProps) {
   const filterValues: jobFilterValues = {
     q,
     location,
-    remote:remote === "true",
+    remote: remote === "true",
     type,
-  }
+  };
   return (
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
       <div className="space-y-5 text-center">
-        <H1>Developer jobs</H1>
+        <H1>{getTitle(filterValues)}</H1>
         <p className="text-muted-foreground">Find your dream job.</p>
       </div>
       <section className="flex flex-col md:flex-row gap-4">
