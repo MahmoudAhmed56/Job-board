@@ -6,6 +6,7 @@ import { jobTypes } from "@/lib/job-types";
 import { Button } from "./ui/button";
 import { jobFilterSchema, jobFilterValues } from "@/lib/validation";
 import { redirect } from "next/navigation";
+import FormSubmitButton from "./FormSubmitButton";
 
 async function filterJobs(formDate: FormData) {
   "use server";
@@ -87,9 +88,9 @@ const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <Button type="submit" className="w-full">
+          <FormSubmitButton className="w-full">
             Filter jobs
-          </Button>
+          </FormSubmitButton>
         </div>
       </form>
     </aside>
