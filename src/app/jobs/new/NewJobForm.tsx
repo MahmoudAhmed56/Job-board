@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
+import LocationInput from "@/components/LocationInput";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -102,16 +103,16 @@ const NewJobForm = () => {
             <FormField
               control={control}
               name="companyLogoUrl"
-              render={({ field: { value,onChange, ...fieldValues } }) => (
+              render={({ field: { value, onChange, ...fieldValues } }) => (
                 <FormItem>
                   <FormLabel>Company logo</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
                       accept="image/*"
-                      onChange={(e)=>{
+                      onChange={(e) => {
                         const file = e.target.files?.[0];
-                        onChange(file)
+                        onChange(file);
                       }}
                       {...fieldValues}
                     />
@@ -137,6 +138,22 @@ const NewJobForm = () => {
                         </option>
                       ))}
                     </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Office location</FormLabel>
+                  <FormControl>
+                    <LocationInput
+                      onLocationSelected={field.onChange}
+                      ref={field.ref}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
