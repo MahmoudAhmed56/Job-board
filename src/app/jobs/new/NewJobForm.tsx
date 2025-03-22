@@ -17,6 +17,7 @@ import Select from "@/components/ui/select";
 import { jobTypes, locationTypes } from "@/lib/job-types";
 import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -173,6 +174,51 @@ const NewJobForm = () => {
                 </FormItem>
               )}
             />
+            <div className="space-y-2">
+                  <Label htmlFor="applicationEmail">How to apply</Label>
+                  <div className="flex justify-between">
+                    <FormField
+                    control={control}
+                    name="applicationEmail"
+                    render={({field})=>(
+                      <FormItem className="grow">
+                        <FormControl>
+                          <div className="flex items-center">
+                          <Input
+                          id="applicationEmail"
+                          placeholder="Email"
+                          type="email"
+                          {...field}
+                          />
+                          <span className="mx-2">or</span>
+                          </div>
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={control}
+                    name="applicationUrl"
+                    render={({field:{onChange,...remainField}})=>(
+                      <FormItem className="grow">
+                        <FormControl>
+                          <Input
+                          onChange={(e)=>{
+                            onChange(e)
+                            trigger("applicationEmail")
+                          }}
+                          placeholder="Website"
+                          type="url"
+                          {...remainField}
+                          />
+                        </FormControl>
+                        <FormMessage/>
+                      </FormItem>
+                    )}
+                    />
+                  </div>
+            </div>
           </form>
         </Form>
       </div>
