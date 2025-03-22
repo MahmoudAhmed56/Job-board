@@ -3,13 +3,13 @@ import JobResults from "@/components/JobResults";
 import H1 from "@/components/ui/h1";
 import { jobFilterValues } from "@/lib/validation";
 import { Metadata } from "next";
-
-interface pageProps {
+interface PageProps {
   searchParams: {
     q?: string;
     type?: string;
     location?: string;
     remote?: string;
+    page?: string;
   };
 }
 function getTitle({ q, location, remote, type }: jobFilterValues) {
@@ -20,22 +20,25 @@ function getTitle({ q, location, remote, type }: jobFilterValues) {
       : remote
         ? `Remote jobs`
         : "All jobs";
-  const titleSuffix = location ? ` in ${location}`:"";
-  return `${TitlePreFix}${titleSuffix}`
+  const titleSuffix = location ? ` in ${location}` : "";
+  return `${TitlePreFix}${titleSuffix}`;
 }
 
-export function generateMetadata({searchParams: { location, q, remote, type },}:pageProps):Metadata{
-  return{
+export async function generateMetadata({
+  searchParams: { q, type, location, remote },
+}: PageProps): Promise<Metadata> {
+  return {
     title: `${getTitle({
       q,
+      type,
       location,
       remote: remote === "true",
-      type,})} Flow Jobs`
-  }
+    })} | Flow Jobs`,
+  };
 }
 export default async function Home({
   searchParams: { location, q, remote, type },
-}: pageProps) {
+}: PageProps) {
   const filterValues: jobFilterValues = {
     q,
     location,
