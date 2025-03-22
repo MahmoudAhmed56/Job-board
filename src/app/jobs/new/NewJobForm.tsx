@@ -18,6 +18,8 @@ import { jobTypes, locationTypes } from "@/lib/job-types";
 import LocationInput from "@/components/LocationInput";
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import RichTextEditor from "@/components/RichTextEditor";
+import { draftToMarkdown } from "markdown-draft-js";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -219,6 +221,26 @@ const NewJobForm = () => {
                     />
                   </div>
             </div>
+            <FormField
+            control={control}
+            name="description"
+            render={({field})=>(
+              <FormItem>
+                <Label
+                onClick={() => setFocus("description")}
+                >Description</Label>
+                <FormControl>
+                  <RichTextEditor
+                  onChange={(draft) =>
+                    field.onChange(draftToMarkdown(draft))
+                  }
+                  ref={field.ref}
+                  />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+            />
           </form>
         </Form>
       </div>
