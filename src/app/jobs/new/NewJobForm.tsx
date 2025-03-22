@@ -20,6 +20,7 @@ import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/RichTextEditor";
 import { draftToMarkdown } from "markdown-draft-js";
+import LoadingButton from "@/components/LoadingButton";
 
 const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -254,6 +255,9 @@ const NewJobForm = () => {
                 </FormItem>
               )}
             />
+            <LoadingButton type="submit" loading={isSubmitting}>
+              Submit
+            </LoadingButton>
           </form>
         </Form>
       </div>
