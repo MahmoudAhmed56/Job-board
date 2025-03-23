@@ -55,7 +55,7 @@ export const createJobSchema = z
       "Invalid job type"
     ),
     companyName: requiredString.max(100),
-    companyLogoUrl: companyLogoSchema,
+    companyLogo: companyLogoSchema,
     description: z.string().max(5000).optional(),
     salary: numericString,
   })

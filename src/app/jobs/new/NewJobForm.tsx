@@ -107,7 +107,7 @@ const NewJobForm = () => {
             />
             <FormField
               control={control}
-              name="companyLogoUrl"
+              name="companyLogo"
               render={({ field: { value, onChange, ...fieldValues } }) => (
                 <FormItem>
                   <FormLabel>Company logo</FormLabel>
