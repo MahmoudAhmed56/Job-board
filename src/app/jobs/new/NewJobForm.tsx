@@ -133,7 +133,16 @@ const NewJobForm = () => {
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Select {...field} defaultValue="">
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        if (e.currentTarget.value === "Remote") {
+                          trigger("location");
+                        }
+                      }}
+                      defaultValue=""
+                    >
                       <option value="" hidden>
                         Select an option
                       </option>
@@ -178,69 +187,69 @@ const NewJobForm = () => {
               )}
             />
             <div className="space-y-2">
-                  <Label htmlFor="applicationEmail">How to apply</Label>
-                  <div className="flex justify-between">
-                    <FormField
-                    control={control}
-                    name="applicationEmail"
-                    render={({field})=>(
-                      <FormItem className="grow">
-                        <FormControl>
-                          <div className="flex items-center">
+              <Label htmlFor="applicationEmail">How to apply</Label>
+              <div className="flex justify-between">
+                <FormField
+                  control={control}
+                  name="applicationEmail"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormControl>
+                        <div className="flex items-center">
                           <Input
-                          id="applicationEmail"
-                          placeholder="Email"
-                          type="email"
-                          {...field}
+                            id="applicationEmail"
+                            placeholder="Email"
+                            type="email"
+                            {...field}
                           />
                           <span className="mx-2">or</span>
-                          </div>
-                        </FormControl>
-                        <FormMessage/>
-                      </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={control}
-                    name="applicationUrl"
-                    render={({field:{onChange,...remainField}})=>(
-                      <FormItem className="grow">
-                        <FormControl>
-                          <Input
-                          onChange={(e)=>{
-                            onChange(e)
-                            trigger("applicationEmail")
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="applicationUrl"
+                  render={({ field: { onChange, ...remainField } }) => (
+                    <FormItem className="grow">
+                      <FormControl>
+                        <Input
+                          onChange={(e) => {
+                            onChange(e);
+                            trigger("applicationEmail");
                           }}
                           placeholder="Website"
                           type="url"
                           {...remainField}
-                          />
-                        </FormControl>
-                        <FormMessage/>
-                      </FormItem>
-                    )}
-                    />
-                  </div>
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <FormField
-            control={control}
-            name="description"
-            render={({field})=>(
-              <FormItem>
-                <Label
-                onClick={() => setFocus("description")}
-                >Description</Label>
-                <FormControl>
-                  <RichTextEditor
-                  onChange={(draft) =>
-                    field.onChange(draftToMarkdown(draft))
-                  }
-                  ref={field.ref}
-                  />
-                </FormControl>
-                <FormMessage/>
-              </FormItem>
-            )}
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <Label onClick={() => setFocus("description")}>
+                    Description
+                  </Label>
+                  <FormControl>
+                    <RichTextEditor
+                      onChange={(draft) =>
+                        field.onChange(draftToMarkdown(draft))
+                      }
+                      ref={field.ref}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             <FormField
               control={control}
