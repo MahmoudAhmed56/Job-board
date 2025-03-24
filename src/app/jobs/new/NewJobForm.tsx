@@ -47,6 +47,7 @@ const NewJobForm = () => {
       await createJobPosting(formData)
     } catch (error) {
       alert("Something went wrong please try again.")
+      console.log(error);
     }
   }
   return (
@@ -121,6 +122,7 @@ const NewJobForm = () => {
             <FormField
               control={control}
               name="companyLogo"
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               render={({ field: { value, onChange, ...fieldValues } }) => (
                 <FormItem>
                   <FormLabel>Company logo</FormLabel>
