@@ -22,3 +22,5 @@ const Select = forwardRef<
 });
 
 export default Select;
+
+Select.displayName = 'Select';
