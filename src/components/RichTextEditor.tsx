@@ -10,7 +10,7 @@ const Editor = dynamic(
   { ssr: false },
 );
 
-const RichTextEditor = forwardRef<Object, EditorProps>((props, ref) => {
+const RichTextEditor = forwardRef<object, EditorProps>((props, ref) => {
   return (
     <Editor
       editorClassName={cn(
