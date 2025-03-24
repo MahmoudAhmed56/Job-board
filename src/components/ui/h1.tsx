@@ -10,5 +10,3 @@ const H1 = (props:React.HTMLProps<HTMLHeadingElement>) => {
 }
 
 export default H1
-
-H1.displayName = "H1"
