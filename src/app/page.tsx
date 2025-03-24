@@ -37,7 +37,7 @@ export async function generateMetadata({
   };
 }
 export default async function Home({
-  searchParams: { location, q, remote, type },
+  searchParams: { location, q, remote, type,page },
 }: PageProps) {
   const filterValues: jobFilterValues = {
     q,
@@ -53,7 +53,9 @@ export default async function Home({
       </div>
       <section className="flex flex-col md:flex-row gap-4">
         <JobFilterSidebar defaultValues={filterValues} />
-        <JobResults filterValues={filterValues} />
+        <JobResults filterValues={filterValues}
+        page={page ? parseInt(page) : undefined}
+        />
       </section>
     </main>
   );
