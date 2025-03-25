@@ -15,7 +15,8 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
+        "pageExtensions": ["ts", "tsx"]
       }
     ],
     "paths": {
