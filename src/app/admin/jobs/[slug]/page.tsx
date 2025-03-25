@@ -5,8 +5,9 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
+// Update the interface to reflect that params is a promise.
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const getJob = cache(async (slug: string) => {
@@ -25,12 +26,12 @@ export async function generateStaticParams() {
     select: { slug: true },
   });
 
-  return jobs.map(({ slug }) => slug);
+  return jobs.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params: { slug },
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  // Await the params promise to get the slug.
+  const { slug } = await params;
   const job = await getJob(slug);
 
   return {
@@ -38,7 +39,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
   const job = await getJob(slug);
 
   const { applicationEmail, applicationUrl } = job;
