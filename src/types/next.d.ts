@@ -1,8 +1,8 @@
 import 'next';
 
 declare module 'next' {
-  export type PageProps<T extends Record<string, string> = Record<string, string>> = {
-    params: T;
+  export type PageProps = {
+    params: Record<string, string>;
     searchParams?: { [key: string]: string | string[] | undefined };
   };
 }
