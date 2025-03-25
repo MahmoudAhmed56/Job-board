@@ -3,16 +3,15 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
 
-interface PageProps {
-  params: { slug: string };
-}
-
-const Page = async ({ params }: PageProps) => {
-  const { slug } = params; // No need to await
-
+const Page = async ({
+  params: { slug }
+}: {
+  params: { slug: string }
+}) => {
   const job = await prisma.job.findUnique({
     where: { slug },
   });
+
   if (!job) notFound();
 
   return (
