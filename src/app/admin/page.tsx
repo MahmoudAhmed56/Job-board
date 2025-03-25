@@ -4,11 +4,11 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 
 const AdminPage = async () => {
-  const unapprovedJobs = prisma.job.findMany({
-    where: {
-      approved: false,
-    },
+  // Await the promise to get the actual array of unapproved jobs.
+  const unapprovedJobs = await prisma.job.findMany({
+    where: { approved: false },
   });
+  
   return (
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
       <H1 className="text-center">Admin Dashboard</H1>
