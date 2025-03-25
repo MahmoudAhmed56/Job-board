@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const getJob = cache(async (slug: string) => {
@@ -24,13 +24,12 @@ export async function generateStaticParams() {
     where: { approved: true },
     select: { slug: true },
   });
-
-  return jobs.map(({ slug }) => slug);
+  // Return objects with a slug key
+  return jobs.map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params: { slug },
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   const job = await getJob(slug);
 
   return {
@@ -38,7 +37,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
   const job = await getJob(slug);
 
   const { applicationEmail, applicationUrl } = job;
