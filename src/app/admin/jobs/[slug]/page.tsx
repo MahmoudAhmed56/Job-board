@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
 
-const Page = async ({ params }: { params: unknown }) => {
+const Page = async (params: { slug: string }) => {
   const { slug } = params as { slug: string };
   const job = await prisma.job.findUnique({
     where: { slug },
