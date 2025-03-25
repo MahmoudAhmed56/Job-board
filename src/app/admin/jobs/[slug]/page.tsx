@@ -4,12 +4,11 @@ import { notFound } from "next/navigation";
 import AdminSidebar from "./AdminSidebar";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default async function Page({ params }: PageProps) {
-  // Await the params promise to get the slug
-  const { slug } = await params;
+  const { slug } = params;
 
   const job = await prisma.job.findUnique({
     where: { slug },
