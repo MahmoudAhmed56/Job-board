@@ -8,7 +8,7 @@ const AdminPage = async () => {
   const unapprovedJobs = await prisma.job.findMany({
     where: { approved: false },
   });
-  
+
   return (
     <main className="m-auto my-10 max-w-5xl space-y-10 px-3">
       <H1 className="text-center">Admin Dashboard</H1>

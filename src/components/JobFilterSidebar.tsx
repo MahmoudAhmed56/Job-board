@@ -1,41 +1,48 @@
+import { jobTypes } from "@/lib/job-types";
 import prisma from "@/lib/prisma";
+import { JobFilterValues, jobFilterSchema } from "@/lib/validation";
+import { redirect } from "next/navigation";
+import FormSubmitButton from "./FormSubmitButton";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import Select from "./ui/select";
-import { jobTypes } from "@/lib/job-types";
-import { jobFilterSchema, jobFilterValues } from "@/lib/validation";
-import { redirect } from "next/navigation";
-import FormSubmitButton from "./FormSubmitButton";
 
-async function filterJobs(formDate: FormData) {
+async function filterJobs(formData: FormData) {
   "use server";
-  const values = Object.fromEntries(formDate.entries());
-  const { q, location, remote, type } = jobFilterSchema.parse(values);
+
+  const values = Object.fromEntries(formData.entries());
+
+  const { q, type, location, remote } = jobFilterSchema.parse(values);
+
   const searchParams = new URLSearchParams({
     ...(q && { q: q.trim() }),
     ...(type && { type }),
     ...(location && { location }),
     ...(remote && { remote: "true" }),
   });
-  redirect(`/?${searchParams.toString}`);
+
+  redirect(`/?${searchParams.toString()}`);
 }
 
 interface JobFilterSidebarProps {
-  defaultValues: jobFilterValues;
+  defaultValues: JobFilterValues;
 }
 
-const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
-  const distinctLocation = (await prisma.job
+export default async function JobFilterSidebar({
+  defaultValues,
+}: JobFilterSidebarProps) {
+  const distinctLocations = (await prisma.job
     .findMany({
       where: { approved: true },
       select: { location: true },
       distinct: ["location"],
     })
     .then((locations) =>
-      locations.map(({ location }) => location).filter(Boolean)
+      locations.map(({ location }) => location).filter(Boolean),
     )) as string[];
+
   return (
-    <aside className="md:w-[260px] p-4 sticky top-0 h-fit bg-background border rounded-lg">
+    <aside className="sticky top-0 h-fit rounded-lg border bg-background p-4 md:w-[260px]">
       <form action={filterJobs} key={JSON.stringify(defaultValues)}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2">
@@ -43,7 +50,7 @@ const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
             <Input
               id="q"
               name="q"
-              placeholder="Title, Company, etc."
+              placeholder="Title, company, etc."
               defaultValue={defaultValues.q}
             />
           </div>
@@ -54,7 +61,7 @@ const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
               name="type"
               defaultValue={defaultValues.type || ""}
             >
-              <option value="">All Types</option>
+              <option value="">All types</option>
               {jobTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
@@ -70,7 +77,7 @@ const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
               defaultValue={defaultValues.location || ""}
             >
               <option value="">All locations</option>
-              {distinctLocation.map((location) => (
+              {distinctLocations.map((location) => (
                 <option key={location} value={location}>
                   {location}
                 </option>
@@ -87,13 +94,9 @@ const JobFilterSidebar = async ({ defaultValues }: JobFilterSidebarProps) => {
             />
             <Label htmlFor="remote">Remote jobs</Label>
           </div>
-          <FormSubmitButton className="w-full">
-            Filter jobs
-          </FormSubmitButton>
+          <FormSubmitButton className="w-full">Filter jobs</FormSubmitButton>
         </div>
       </form>
     </aside>
   );
-};
-
-export default JobFilterSidebar;
+}

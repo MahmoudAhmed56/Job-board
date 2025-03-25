@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils";
-import { jobFilterValues } from "@/lib/validation";
+import { JobFilterValues } from "@/lib/validation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  filterValues: jobFilterValues;
+  filterValues: JobFilterValues;
 }
 
 const Pagination = ({
@@ -14,14 +14,14 @@ const Pagination = ({
   totalPages,
   filterValues: { q, type, location, remote },
 }: PaginationProps) => {
-  function generatePageLink(page:number) {
+  function generatePageLink(page: number) {
     const searchParams = new URLSearchParams({
-      ...(q&&{q}),
-      ...(type&&{type}),
-      ...(location&&{location}),
-      ...(remote&&{remote:"true"}),
-      page: page.toString()
-    })
+      ...(q && { q }),
+      ...(type && { type }),
+      ...(location && { location }),
+      ...(remote && { remote: "true" }),
+      page: page.toString(),
+    });
     return `/?${searchParams.toString()}`;
   }
   return (
@@ -30,7 +30,7 @@ const Pagination = ({
         href={generatePageLink(currentPage - 1)}
         className={cn(
           "flex items-center gap-2 font-semibold",
-          currentPage <= 1 && "invisible",
+          currentPage <= 1 && "invisible"
         )}
       >
         <ArrowLeft size={16} />
@@ -43,14 +43,14 @@ const Pagination = ({
         href={generatePageLink(currentPage + 1)}
         className={cn(
           "flex items-center gap-2 font-semibold",
-          currentPage >= totalPages && "invisible",
+          currentPage >= totalPages && "invisible"
         )}
       >
         Next page
         <ArrowRight size={16} />
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

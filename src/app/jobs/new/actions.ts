@@ -31,14 +31,14 @@ export async function createJobPosting(formData: FormData) {
       `company_logos/${slug}${path.extname(companyLogo.name)}`,
       companyLogo,
       {
-        access:"public",
-        addRandomSuffix:false
+        access: "public",
+        addRandomSuffix: false,
       }
     );
-    companyLogoUrl = blob.url
+    companyLogoUrl = blob.url;
   }
   await prisma.job.create({
-    data:{
+    data: {
       slug,
       title: title.trim(),
       type,
@@ -49,8 +49,8 @@ export async function createJobPosting(formData: FormData) {
       applicationEmail: applicationEmail?.trim(),
       applicationUrl: applicationUrl?.trim(),
       description: description?.trim(),
-      salary: salary ? parseInt(salary) : null
-    }
-  })
-  redirect("/job-submitted")
+      salary: salary ? parseInt(salary) : null,
+    },
+  });
+  redirect("/job-submitted");
 }

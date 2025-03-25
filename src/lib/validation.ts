@@ -45,7 +45,7 @@ const locationSchema = z
     }
   );
 
-export type CreateJobValues = z.infer<typeof createJobSchema>
+export type CreateJobValues = z.infer<typeof createJobSchema>;
 
 export const createJobSchema = z
   .object({
@@ -69,4 +69,4 @@ export const jobFilterSchema = z.object({
   remote: z.coerce.boolean().optional(),
 });
 
-export type jobFilterValues = z.infer<typeof jobFilterSchema>;
+export type JobFilterValues = z.infer<typeof jobFilterSchema>;

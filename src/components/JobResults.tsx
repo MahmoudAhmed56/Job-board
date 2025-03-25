@@ -1,12 +1,12 @@
 import prisma from "@/lib/prisma";
 import JobListItem from "./JobListItem";
-import { jobFilterValues } from "@/lib/validation";
+import { JobFilterValues } from "@/lib/validation";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import Pagination from "./Pagination";
 
 interface JobResultsProps {
-  filterValues: jobFilterValues;
+  filterValues: JobFilterValues;
   page?: number;
 }
 
@@ -49,7 +49,7 @@ const JobResults = async ({ filterValues, page = 1 }: JobResultsProps) => {
   const countPromise = prisma.job.count({
     where,
   });
-  const [jobs, totalResults]= await Promise.all([jobsPromise,countPromise])
+  const [jobs, totalResults] = await Promise.all([jobsPromise, countPromise]);
   return (
     <div className="grow space-y-4">
       {jobs.map((job) => (

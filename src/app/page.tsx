@@ -1,7 +1,7 @@
 import JobFilterSidebar from "@/components/JobFilterSidebar";
 import JobResults from "@/components/JobResults";
 import H1 from "@/components/ui/h1";
-import { jobFilterValues } from "@/lib/validation";
+import { JobFilterValues } from "@/lib/validation";
 import { Metadata } from "next";
 
 // Update the interface so that searchParams is a Promise
@@ -15,7 +15,7 @@ interface PageProps {
   }>;
 }
 
-function getTitle({ q, location, remote, type }: jobFilterValues) {
+function getTitle({ q, location, remote, type }: JobFilterValues) {
   const TitlePreFix = q
     ? `${q} jobs`
     : type
@@ -27,7 +27,9 @@ function getTitle({ q, location, remote, type }: jobFilterValues) {
   return `${TitlePreFix}${titleSuffix}`;
 }
 
-export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
   const { q, type, location, remote } = await searchParams;
   return {
     title: `${getTitle({
@@ -41,7 +43,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 
 export default async function Home({ searchParams }: PageProps) {
   const { location, q, remote, type, page } = await searchParams;
-  const filterValues: jobFilterValues = {
+  const filterValues: JobFilterValues = {
     q,
     location,
     remote: remote === "true",
